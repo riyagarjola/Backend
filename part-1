@@ -1,0 +1,97 @@
+PART-1
+
+1. Server is a machine which have its own operating system have a own processor, and its own RAM.
+How to program server, how to create and deploy server?
+Java,python,Ruby,Dot Net,Go
+we use javascript.
+To run javascript we can run node.js
+
+step1. download node.js
+
+2.Packages is code written by some other developer which we can still use.
+basic code conversion into package and upload in npm website.
+
+cat-me pacakage (package install) // command to install is given in the website you just have to run it in the terminal
+step2. create a new file then index.js
+
+step3. In index.js file
+const catme=require('cat-me');
+console.log(catme());
+
+we need node-js to run Javascript
+Run file-> node index.js
+
+node_modules -> we use it why?
+The code from package is stored in node_modules.
+cats.json -> is inside node_modules.
+
+ pacage.json file -> maintain that the code you written depend on which packages.
+ cat-me -> package.json -> depend on which pacakages
+package.json->dependencies->yargs->depend on camelcase and camelcase do not depend on other it is self sufficient.
+If pacage.json did not depend on some other pacage then that pacage is sufficient in itself.
+
+a chain is there (this chain is maintained by package-lock.json
+
+server -> is a node.js application (when using js)
+In terminal
+  npm init -y
+
+it give you a package.json file.
+
+-Now you have to create server.
+-use express package (fast and good)
+   npm i express
+
+step3. create server.js and run it.
+       const express=require('express');
+       const app=express();  //jb express ko call krte h toh ek server ka instance create krre hote h fr use ek variable m store kr rahe h
+       app.listen(3000);     //server ko start krne k liye use krte h
+
+   //program server to run what it replies
+app.get("/",(req,res) => {
+  res.send("Hello World")
+})
+
+app.get("/about",(req,res) => {
+res.send("About Page")
+})
+
+for this write in browser->localhost:3000/about
+
+using port 3000
+In terminal
+   node server.js
+
+In browser-> localhost:3000
+
+In Javascript 
+ function sum(a,b)
+ return a+b;
+} 
+This function is defined but never runs until you call it
+sum(2,3);
+
+step4. create index.js new file
+console.log(2+3)
+//when you run gives you 5
+
+node init -y => node js application initiate
+npm i express => install express js 
+
+1.port -> 
+mail -25 se communicate krta h
+files-20 se communicate krta h
+
+2.req-any data that comes from user or frontent can be accessed through request only.
+3. res- response to send (like res.send());
+
+
+
+
+
+
+
+
+
+
+
