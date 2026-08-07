@@ -85,6 +85,61 @@ files-20 se communicate krta h
 2.req-any data that comes from user or frontent can be accessed through request only.
 3. res- response to send (like res.send());
 
+API & REST API
+-Application Programming Interface is a set of rules or protocols that allow different software programs to communicate and exchange data and functionality with each 
+other.
+-backend or frontend
+
+Types of APIs by Architectural Style/Protocol
+1.REST(Representaional State Transfer) APIs => If you have two different application then you have to use HTTP protocol, and HTTP methods like (GET,POST,PUT,DELETE)
+to interact with resources.(pdf attached in video)
+
+GET - data server se fetch krvana ho tb use krte h
+POST - frontend se server pr data send krna ho
+PATCH - server pr data already h us data ko update krna ho
+DELETE - server pr data h aur use delete krna h
+
+2.SOAP(Simple Object Access Protocol)
+3.RPC(Remote Procedure Call)
+4.GraphQL ApI
+5.Websocket APIs
+
+Task -> Make a note see it , update it , delete it
+clear
+npm init -y
+npm i express
+
+Make app.js //server create krna
+const express = require("express")
+constant app = express()
+
+/*
+ note={
+ title:"my first note",
+ description:"this is my first note"
+}
+
+const notes=[
+title:"my first note",
+ description:"this is my first note"
+
+title:"my second note",
+ description:"this is my second note"
+]
+*/
+
+
+module.exports=app
+
+server.js (make in root file or src)
+//server ko start krna iska kaam krna
+
+const app = require("./src/app)
+app.listen(3000, ()=>{]
+console.log("server is running on port 3000");
+})
+
+
 
 
 
