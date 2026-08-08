@@ -112,25 +112,25 @@ npm i express
 Make app.js //server create krna
 const express = require("express")
 constant app = express()
+app.use(express.json())   //Middleware  [body k under aane vale data ko readable bna deta h]
+ 
+const notes=[]
 
-/*
- note={
- title:"my first note",
- description:"this is my first note"
-}
+app.post('/notes',(req,res)=>{    //Here we use post method and /notes name api
+notes.push(req.body)      //req.body m jo data aaya voh object format m aaya hoga 
+req.status(201).json({
+message:"note created successfully"
+  })
+})
 
-const notes=[
-title:"my first note",
- description:"this is my first note"
-
-title:"my second note",
- description:"this is my second note"
-]
-*/
-
-
+app.get('/notes',(req,res)=>
+ res.status(200).json({
+  message:"notes fetched successfully",
+  notes=notes
+})
+})                 //get m data server se fronted m ja raha hoga
 module.exports=app
-
+ 
 server.js (make it in root file or src)
 //server ko start krna iska kaam krna
 
@@ -138,6 +138,104 @@ const app = require("./src/app)
 app.listen(3000, ()=>{
 console.log("server is running on port 3000");
 })
+
+In terminal
+ node server.js
+
+-use postman  and install it 
+1.create new workspace
+2.black workspace
+3. name it
+4.create
+-postman=> act like a frontend to develop api (to check ki req.body p data aayega ya nhi)
+Post localhost:3000/notes -> body -> raw -> Json
+{
+"title":"test_title",
+"description":"test_description"
+}   //This is a json format in string format
+
+- postman se ek request bhejenge backend m jo port 3000 p chl raha hoga. [send]
+we get undefined
+
+- jb bhi hme data req.body m chaiye hota h tb hme yaha pr ek middleware use krna padega.
+
+201 status code-> success {A new resourse has been created in backend}
+
+app.delete('/notes/:index',(req,res)=>{    // /notes static part aur uske aage /index,/1 ye sb dynamic hota h ise params bolte h
+  const index=req.params.index
+  delete notes[index]
+  res.status(200).json({
+ message:"note deleted successfully"
+});
+
+
+npx nodemon server.js // update karoge toh yeh server ko restart kr deta h
+
+JSON
+"message": "notes fetched successfully",
+"notes":{
+"title":"test_title",
+"description":"test_description"
+},
+{
+"title":"test_title_2",
+"description":"test_description_2"
+}
+}
+}
+
+-After deletion it becomes null.
+
+app.patch("/notes/:index", (req,res) =>{
+const index=req.params.index
+const description=req.body.description
+
+notes[index].description=description
+res.status(200).json({
+message: "note updated successfully"
+})
+});
+
+{
+ "description":"updated description"
+}
+
+-run krte vqt ram m store hote h saare notes, server bnd hua to ram htt jayegi, thatswhy we use database.
+
+DATABASES
+database ka data refresh krne k baad bhi nhi jata
+MogoDb->cluster->database create->data store
+
+mongo db
+account creation
+new project create
+create a cluster
+
+CLUSTER-> cluster is a physical machine in which we can configure how much ram, cpu, storage vaha pr hone vali h.
+free cluster
+aws
+reason-> mumbai
+
+TYPES OF SERVER
+Web servers for hoisting websites,
+Mail servers for email
+,File servers for data storage,
+Databse servers for data management, 
+Application servers for running applications
+and proxy servers as intermediaries.
+
+-Mongodb k under cluster , aur cluster k under databse creation.
+-cluster se selected log hi jud skte h
+
+-2 layer of security
+-Network Access =>  we allow only that IP address jinse hm connect krna chahte h.
+-Database access =>
+
+server ko database se connect krna hoga pehle, connected through internet. we have to allow only our server to connect , Thatswhy IP is assigned to device.
+
+
+
+
 
 
 
