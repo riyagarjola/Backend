@@ -28,7 +28,7 @@ cats.json -> is inside node_modules.
  pacage.json file -> maintain that the code you written depend on which packages.
  cat-me -> package.json -> depend on which pacakages
 package.json->dependencies->yargs->depend on camelcase and camelcase do not depend on other it is self sufficient.
-If pacage.json did not depend on some other pacage then that pacage is sufficient in itself.
+If pacage.json did not depend on some other package then that package is sufficient in itself.
 
 a chain is there (this chain is maintained by package-lock.json
 
@@ -131,11 +131,11 @@ title:"my second note",
 
 module.exports=app
 
-server.js (make in root file or src)
+server.js (make it in root file or src)
 //server ko start krna iska kaam krna
 
 const app = require("./src/app)
-app.listen(3000, ()=>{]
+app.listen(3000, ()=>{
 console.log("server is running on port 3000");
 })
 
