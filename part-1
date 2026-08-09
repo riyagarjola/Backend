@@ -229,9 +229,139 @@ and proxy servers as intermediaries.
 
 -2 layer of security
 -Network Access =>  we allow only that IP address jinse hm connect krna chahte h.
--Database access =>
+-Database access =>  Main 4 operation (CRUD) operation
+C=>create - POST
+R=read - GET
+U=>update - PATCH
+d=>delete - DELETE
 
 server ko database se connect krna hoga pehle, connected through internet. we have to allow only our server to connect , Thatswhy IP is assigned to device.
+Mobile Ip address change hota h, jb tk ap development karoge tb tk ap allowed from anywhere kr skte ho.
+database have multiple users. 
+
+URI->batati h cluster ka name password vagera
+
+mongoose ka use krte h taki server mongo db database se connect ho paye.
+
+In terminal
+ npm i mongoose
+
+step 3. Is to connect server to database after creating and running a server.
+
+src -> db -> db.js -> 
+
+const mongoose = require("mongoose");
+async function connectDB(){
+await mongoose.connect("URI/db_name");    //hme nhi pta ki server database se kitni der m connect hoga thatswhy hm await lgate h aur tvi hm async bhi lgate h
+
+console.log("Connected to DB")
+}
+
+module.exports = connectDB
+
+
+server.js
+const app= require("./src/app")
+const connectDB=require("./src/db/db")
+connectDB()
+app.listen(3000, () => {
+console.log("Server is running on port 3000")
+})
+
+notes k database ko batana padega ki ek notes ka data dikhta kesa h ise hm bolte h schema creation. 
+
+models -> folder k under schema create krte h
+
+note.model.js
+const noteSchema = new mongoose.Schema({
+title: String,
+description:String,
+age:Number,
+dob:Date
+})
+
+const noteModel=mongoose.model("note",noteSchema)
+
+module.exports=noteModel
+
+
+-database k under kuch bhi store krna ho to pehle batana padega ki voh data dikhta kesa h. 
+-schema define krna hota h
+-notemodel create nhi karoge toh fr bhi operations kr paoge, pr code bhut jada likhna padega aur repetive code likhna padega
+
+
+app.js
+const express=require('express');
+const noteModel = require("./models/note.model")
+const app = express();
+app.use(express.json());   //req.body m data tb tk ni aata jb tk middleware use na kr lo 
+
+app.post("/notes", async(req,res)=>{
+const data =req.body
+await noteModel.create({
+title:data.title,
+description: data.description
+})
+res.status(201).json({
+message:"Note created"
+})
+})
+
+app.get('/notes',async(req,res)=>{
+//const notes = await noteModel.find()   //find array of object k form m data hoga [] ; agr no data toh empty data.  //findOne -> ek ko find krti h
+const notes = awit noteModel.findOne({
+title: :test_title"
+})
+res.status(200).json(notes){
+message:"Notes fetched successfully",
+notes:notes
+})
+});
+
+app.delete("/notes/:id", async(req,res)=> {
+const id=req.params.id
+await noteModel.findOneAndDelete({
+_id:id
+})
+res.status(200).json({
+message:"Note deleted successfully"
+})
+})
+
+app.patch("/notes/:id", async(req,res) => {
+const id=req.params.id
+const description = req.body.description
+
+await noteModel.findOneAndUpdate({_id:id},{description:description})
+res.status(200).json({
+message:"Note updated successfully"
+  })
+})
+module.exports=app
+
+Cloud storage provider -> file dete h aur yeh hme url reutrn krte h
+-link ko kholne se image access kr paenge jo hmne di hogi.
+
+-id aati h mongo db k database m voh unique hoti h.
+
+-find => [{},{}] or []
+-findOne => {} or null
+
+-AWS -> jb hm ek server deploy krte h, machine configuration -> elastic container service -> task definition ->create new task -> panel khulega
+-operating system,task size,memory (ram)
+
+CLOUD STORAGE PROVIDER
+Google Drive 
+Dropbox
+Microsoft OneDrive
+Apple iCloud
+pCloud
+imagekit -> file store krenge aur yeh hme url degi use access krne k liye.
+
+
+
+
+
 
 
 
