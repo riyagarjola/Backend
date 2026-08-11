@@ -109,7 +109,9 @@ clear
 npm init -y
 npm i express
 
+
 Make app.js //server create krna
+----------------------------------------------
 const express = require("express")
 constant app = express()
 app.use(express.json())   //Middleware  [body k under aane vale data ko readable bna deta h]
@@ -149,6 +151,7 @@ In terminal
 4.create
 -postman=> act like a frontend to develop api (to check ki req.body p data aayega ya nhi)
 Post localhost:3000/notes -> body -> raw -> Json
+
 {
 "title":"test_title",
 "description":"test_description"
@@ -220,11 +223,11 @@ TYPES OF SERVER
 Web servers for hoisting websites,
 Mail servers for email
 ,File servers for data storage,
-Databse servers for data management, 
+Database servers for data management, 
 Application servers for running applications
 and proxy servers as intermediaries.
 
--Mongodb k under cluster , aur cluster k under databse creation.
+-Mongodb k under cluster , aur cluster k under database creation.
 -cluster se selected log hi jud skte h
 
 -2 layer of security
@@ -249,7 +252,7 @@ In terminal
 step 3. Is to connect server to database after creating and running a server.
 
 src -> db -> db.js -> 
-
+------------------------------------------------------
 const mongoose = require("mongoose");
 async function connectDB(){
 await mongoose.connect("URI/db_name");    //hme nhi pta ki server database se kitni der m connect hoga thatswhy hm await lgate h aur tvi hm async bhi lgate h
@@ -261,6 +264,7 @@ module.exports = connectDB
 
 
 server.js
+-------------------------------------------------
 const app= require("./src/app")
 const connectDB=require("./src/db/db")
 connectDB()
@@ -273,6 +277,8 @@ notes k database ko batana padega ki ek notes ka data dikhta kesa h ise hm bolte
 models -> folder k under schema create krte h
 
 note.model.js
+
+-------------------------------------------------------------
 const noteSchema = new mongoose.Schema({
 title: String,
 description:String,
@@ -291,6 +297,7 @@ module.exports=noteModel
 
 
 app.js
+--------------------------------------------------------------------------------
 const express=require('express');
 const noteModel = require("./models/note.model")
 const app = express();
@@ -357,6 +364,142 @@ Microsoft OneDrive
 Apple iCloud
 pCloud
 imagekit -> file store krenge aur yeh hme url degi use access krne k liye.
+
+database -> m url store krte h image ka ..image directly save nhi hota.
+
+Task 2-> CREATING AN APPLICATION
+
+In terminal
+npm init -y
+npm i express mongoose
+
+----------------------------------------------------------------
+src -> app.js
+
+const express = require('express');
+const multer = require('multer');
+const uploadFile=require("./services/storage.service")
+const postModel=require("./models/post.model")
+const app=express();
+app.use(express.json());
+
+const upload = multer({storage: multer.memoryStorage()})
+
+
+app.post('/create-post',upload.single("image"), async (req,res) => {
+console.log(req.body);
+console.log(req.file);
+
+const result=await uploadFile(req.file.buffer)
+
+console.log(result);
+
+const post=await postModel.create({
+image:result.url,
+caption:req.body.caption
+  })
+
+return res.status(201).json({
+message:"Post Created successfully",
+
+  })
+
+})
+
+module.exports=app;
+-----------------------------------------------------
+server.js
+
+require("dotenv").config();
+const app=require("./src/app);
+const connectDB = require("./src/db/db");
+connectDB():
+
+app.listen(3000,()=>{
+   console.log("Server is running on port 3000");
+})
+
+src->db folder->db.js
+
+--------------------------------------------------------
+db.js
+
+const mongoose=require("mongoose");
+
+async function connectDB(){
+// await mongoose.connect("URI of cluster/database name");
+await mongoose.connect(process.env.MONGO_URI)
+console.log("Connected to DB")
+}
+
+module.exports=connectDB;
+
+Now in server.js terminal
+ npx nodemon server.js
+
+-schema create krne k liye file create krenge models folder k under
+models->post.js
+
+const mongoose = require("mongoose");
+const postSchema = new mongoose.Scheme({
+image: String,
+caption:String,
+})
+ 
+const postModel = mongoose.model("post",postSchema)
+module.exports=postModel;
+
+-collection => same type ka data.
+In Terminal
+npm i multer  // is baar image h toh file ko read krne ka tarika alg hoga.
+
+npx nodemon server.js
+
+-jo buffer milega use image kit m set up krna h.
+
+-search image kit
+nodejs
+install from direct command given in imagekit
+
+ImageKit -> cloud storage provider -> jism hm apni file store karenge aur voh file k bdle hme ek url dega.
+
+Cloudinary
+AWS s3
+we use based on pricing and servicing.
+
+-Jin service ka fix nhi ki ap hmesha unhi service ka use karoge unka code => services folder k under likhte ho.
+storage.service.js
+
+const {ImageKit} = require("@imagekit/nodejs")
+const imagekit=new ImageKit({
+privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+})
+
+const imagekit=new ImageKit({
+ privateKey:"private_......="
+})
+async function uploadFile(buffer){
+const response= await imagekit.files.upload({
+file:buffer.toString("base64"),
+fileName:"image.jpg"
+})
+return result;
+}
+module.exports = uploadFile;
+
+--------steps
+-image kit ka account setup kiya.
+-private key ki help se image kit ka ek sdk h use storage.service.js file m bnaya.
+-private key jisp bhi hogi voh kuch bhi upload aur delete kr skta h apki file m se.
+
+-.env file -> (credentials)
+IMAGEKIT_PRIVATE_KEY=************
+MONGO_URI=*********
+
+In terminal 
+npm i dotenv    => taki stored credentials ko use karo unke variable name se.
+-credentials ko kvi bhi code m nahi rakhte unhe hmesha .env file m rakhe h safely.
+
 
 
 
