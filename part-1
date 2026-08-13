@@ -500,6 +500,63 @@ In terminal
 npm i dotenv    => taki stored credentials ko use karo unke variable name se.
 -credentials ko kvi bhi code m nahi rakhte unhe hmesha .env file m rakhe h safely.
 
+App.jsx
+
+import React from 'react'
+const App = () =>{
+return{
+<div>App</div>
+ }
+}
+export defult App
+
+download -> ES7 + React/Redux/React-Native
+
+index.css
+------------------------------------------------
+*{
+margin:0 ;
+border:0 ;
+box-sizing: borderbox;
+}
+
+html,body,root{
+height:100%;
+width:100%;
+}
+
+App.jsx
+--------------------------------------------------
+import React from 'react'
+import {BrowseRouter as Router,Routes,Route} from 'react-router-dom'
+const App =() =>{
+return(
+<Router>
+  <Routes>
+    <Route path='/' element={<h1>Hello World</h1>} />
+    <Route path='/about' element={<h1>About us</h1>} />
+  </Routes>
+</Router>
+)
+}
+export default App
+
+pages folder -> createpost.jsx
+
+//reactfunctionalexport
+
+import React from 'react'
+const CreatePost=()=>{
+return(
+  <section className='create-post-section'>
+  <h1>Create post </h1>
+  <form>
+   <input type="file" name="image" accept="image/*"/>
+  </form>
+</section>
+ )
+}
+export default CreatePost
 
 
 
